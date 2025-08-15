@@ -1,9 +1,9 @@
-from turtle import pd
+import csv
+from collections import Counter, defaultdict
+
 import mlx.core as mx
 import mlx.nn as nn
 import mlx.optimizers as optim
-import csv
-from collections import Counter, defaultdict
 import numpy as np
 
 
@@ -176,18 +176,24 @@ def main():
             mx.eval(model.state, optimizer.state, loss, grads)
             if debug and (start % 4096 == 0 or start % 3968 == 0):
                 print(f"======= stats for start {start} =======")
-                print("embedding layer weight: ", model.parameters()['embedding_layer']['weight'][0])
-                print("embedding layer grad: ", grads['embedding_layer']['weight'][0])
-                print("linear layer weight: ", model.parameters()['layers'][0]['weight'][0])
-                print("linear layer grad: ", grads['layers'][0]['weight'][0])
+                print(
+                    "embedding layer weight: ",
+                    model.parameters()["embedding_layer"]["weight"][0],
+                )
+                print("embedding layer grad: ", grads["embedding_layer"]["weight"][0])
+                print(
+                    "linear layer weight: ",
+                    model.parameters()["layers"][0]["weight"][0],
+                )
+                print("linear layer grad: ", grads["layers"][0]["weight"][0])
                 print("loss: ", loss)
                 print(f"======= end for start {start} =======")
-                
+
             current_loss = loss.item()
-        print(f"*+*+*+*+*+*+*+*+*+*+ EPOCH STATS FOR EPOCH {epoch} *+*+*+*+*+*+*+*+*+*+")
         print(
-            " loss: ", current_loss
+            f"*+*+*+*+*+*+*+*+*+*+ EPOCH STATS FOR EPOCH {epoch} *+*+*+*+*+*+*+*+*+*+"
         )
+        print(" loss: ", current_loss)
         losses.append(current_loss)
     print("!!!!!!!!!! Training Complete !!!!!!!!!!")
     print("losses: ", losses)
